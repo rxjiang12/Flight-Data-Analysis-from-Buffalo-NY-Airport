@@ -1,95 +1,74 @@
-**Analysis of Flight Data from Buffalo Niagara International Airport (BUF)**
+# Analysis of Flight Data from Buffalo Niagara International Airport (BUF)
 
-**Project Overview:**   
-This project analyzes one month of flight activity at Buffalo Niagara International Airport (BUF) to better understand where delays and cancellations most frequently occur. By combining 30 days of raw flight data stored in JSON format, this analysis focuses on airline performance, destination trends, and how operational factors such as gates and scheduling contribute to delays.
+An analysis of one month of flight activity at BUF, combining 30 days of raw JSON records into a single dataset to find where delays and cancellations actually concentrate — by airline, destination, gate, and date.
 
-The goal of this project was to organize and analyze flight operation data in order to identify patterns in departure and arrival delays, airline reliability, and potential areas for improving airport efficiency and the overall passenger experience.
+**[Read the full case study →](https://ranxinjiang.github.io/project-buffalo-flights.html)**
 
-**Project Objective:**   
-The objective of this project was to analyze flight performance data from Buffalo Niagara International Airport (BUF) to identify patterns in departure and arrival delays across airlines, destinations, and operational factors.
+A collaborative academic project by **Anna Bold, Kossi Gamli, Ran Xin Jiang, and Christina Pratas**.
 
-**Business Problem:**   
-Airports and airline operators must manage a wide range of operational challenges that can lead to delays or cancellations, such as:
+---
 
-* Scheduling Constraints  
-* Gate Availability  
-* Airline Performance  
-* Weather Conditions  
-* Flight Volume
+## The Problem
 
-Without structured analysis, it is difficult to determine where delays are concentrated or which operational factors contribute most to service interruptions. This project aims to provide data-driven insights into delay patterns at BUF Airport to support improved operational planning and performance monitoring.
+Airports and airlines manage scheduling constraints, gate availability, weather, and flight volume simultaneously. When something slips, it isn't obvious which factor is responsible or where the delay concentrates. Without structured analysis there's no way to say whether delays are spread evenly across operations or driven by a small number of gates, routes, or days.
 
-**Dataset:**   
-The dataset used in this analysis consists of 30 JSON files representing daily flight activity throughout January 2025 at Buffalo Niagara International Airport. Each file contains detailed information regarding:
+## The Data
 
-* Scheduled and actual departure times  
-* Scheduled and actual arrival times  
-* Airline carrier information  
-* Destination airports  
-* Aircraft information  
-* Gate assignments  
-* Delay and cancellation indicators
+Thirty JSON files covering daily flight activity at BUF throughout **January 2025**. Each record contains:
 
-These daily files were combined to create a unified dataset for analysis.
+- Scheduled and actual departure times
+- Scheduled and actual arrival times
+- Airline carrier
+- Destination airport
+- Aircraft information
+- Gate assignment
+- Delay and cancellation indicators
 
-**Tools & Technologies:** 
+Combined into a single dataset of **5,509 flights**, of which **4,145** carried usable departure delay data.
 
-* Python  
-* Pandas  
-* NumPy  
-* Matplotlib
+## Method
 
-**Methodology:**   
-The project followed a structured analytics workflow including:
+**Data preparation** — loaded and combined the 30 daily JSON files, handled missing values and inconsistent formatting, standardized scheduled and actual time fields, derived departure and arrival delay metrics, and created a cancellation flag.
 
-1\. Data Preparation
+**Analysis** — grouped aggregations across airline, destination airport, departure gate, and date of operation, evaluating average and median delay, 90th-percentile delay, and cancellation frequency.
 
-* Loaded and combined 30 individual JSON flight data files into a single dataset  
-* Cleaned raw flight records by handling missing values and inconsistent formatting  
-* Standardized variables for scheduled and actual departure and arrival times  
-* Calculated delay metrics such as departure delay and arrival delay  
-* Prepared the dataset for aggregation and trend analysis
+**Visualization** — four charts covering daily cancellation rate, gate-level departure delay, and destination-level arrival delay and cancellation rate.
 
-2\. Model Planning
+## Findings
 
-* Identified key performance indicators related to flight delays  
-* Selected relevant analytical dimensions including airline carrier, destination airport, gate assignment, and day of operation  
-* Planned aggregation strategies to evaluate average departure delay, median departure delay, average arrival delay, and cancellation frequency
+**Flights leave late and arrive early.** The average departure ran **27.3 minutes behind schedule** (median 20 minutes), with the slowest tenth leaving more than an hour late. Yet the average arrival came in **10.9 minutes early** (median 14 minutes early).
 
-3\. Model Building & Analysis
+That gap is schedule padding — carriers build slack into block times, so a late pushback frequently still produces an on-time landing. It also means departure delay overstates the passenger-facing problem, since most lost time is recovered in the air.
 
-* Performed exploratory data analysis using grouped aggregations  
-* Analyzed delay trends by airline and destination  
-* Evaluated operational bottlenecks across gates  
-* Identified recurring delay patterns across specific dates and carriers  
-* Generated summary statistics and visualizations to support findings
+**Delays are common but modest.** By the DOT's 15-minute standard, **45% of flights were delayed** — 2,479 of 5,509.
 
-**Key Insights**
+**Cancellations are rare and clustered.** Only **53 flights** cancelled across the month, under 1% of activity. They concentrate on a handful of dates rather than spreading evenly, which is the signature of weather events rather than chronic operational failure.
 
-* Certain airlines and destinations consistently experienced higher average delays  
-* Specific gates were associated with increased departure delays  
-* Delay patterns varied by date, suggesting operational or scheduling pressures  
-* A small number of destinations accounted for a disproportionate share of arrival delays
+**Some gates and destinations carry more delay than others.** Grouping by departure gate surfaced a wide spread, pointing at ground operations and turnaround rather than anything in the air. A small number of destinations accounted for a disproportionate share of arrival delay, and a separate small set drove most cancellations.
 
-These findings highlight potential operational constraints and areas where targeted scheduling or resource allocation improvements may enhance performance at BUF Airport.
+## Repository Contents
 
-**How to Run This Project**
+| File | Description |
+|---|---|
+| `buffalo_flight_analysis.ipynb` | The full analysis — data preparation, aggregations, and visualizations |
+| `BUF_1.json` – `BUF_30.json` | Raw daily flight records, January 2025 |
+| `Ran Xin Jiang's Individual Contributions.md` | Breakdown of individual work on the project |
 
-1. Clone or download this repository to your local machine.  
-2. Ensure that Python is installed along with the required data analysis libraries, including Pandas, NumPy, and Matplotlib.  
-3. Open the flight data notebook file in Jupyter Notebook or another compatible Python notebook environment.  
-4. Run the cells sequentially to reproduce the data preparation, analysis, and visualization steps used in this project.
+## Running It
 
-**Limitations**
+1. Clone or download this repository.
+2. Ensure Python is installed along with Pandas, NumPy, and Matplotlib.
+3. Open `buffalo_flight_analysis.ipynb` in Jupyter or another notebook environment.
+4. Run the cells in order to reproduce the data preparation, analysis, and charts.
 
-* Analysis is limited to one month of flight data  
-* External factors such as weather were not incorporated  
-* Dataset does not capture airline staffing or maintenance issues
+The notebook reads the JSON files from the repository root, so no additional setup is required.
 
-**Contributors**  
-This was a collaborative academic project completed by:
+## Limitations
 
-* Anna Bold  
-* Kossi Gamli  
-* Ran Xin Jiang  
-* Christina Pratas
+- The analysis covers a single month, so seasonal patterns can't be separated from January-specific weather.
+- External factors — weather data in particular — were not incorporated, which limits how far the cancellation clustering can be explained.
+- The dataset contains no information on airline staffing or aircraft maintenance, both plausible drivers of the delays observed.
+
+## Built With
+
+Python · Pandas · NumPy · Matplotlib · Jupyter
